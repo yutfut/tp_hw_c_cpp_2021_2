@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/Users/yutfut/Desktop/tp_hw_c_cpp_2021_2/build",
-  "command": "/usr/bin/clang   -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -mmacosx-version-min=11.2 -std=gnu99 -o CMakeFiles/hw-1.dir/src/main.c.o -c /Users/yutfut/Desktop/tp_hw_c_cpp_2021_2/src/main.c",
-  "file": "/Users/yutfut/Desktop/tp_hw_c_cpp_2021_2/src/main.c"
-}
-]
