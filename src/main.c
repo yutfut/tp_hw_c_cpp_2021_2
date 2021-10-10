@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct people{
+struct people {
     char *name;
     char *surname;
     char *role;
@@ -39,7 +39,29 @@ int input_int() {
     char c = '\0';
     while (scanf("%c", &c), c != EOF && c != '\n') {
         if (c >= '0' && c <= '9') {
-            result = result * 10 + c - 48;
+            result = result * 10 + (c - 48);
+        }
+    }
+    return result;
+}
+
+double input_double() {
+    double result = 0;
+    char c = '\0';
+    int dote = 1;
+    int divider = 10;
+    while (scanf("%c", &c), c != EOF && c != '\n') {
+        if (c >= '0' && c <= '9' && dote) {
+            result = result * 10 + (c - 48);
+        }
+        if (c == '.') {
+            dote = 0;
+            continue;
+        }
+        if (c >= '0' && c <= '9' && !dote) {
+            double buff = (double) (c - 48) / divider;
+            result = result + buff;
+            divider = divider * 10;
         }
     }
     return result;
@@ -51,37 +73,22 @@ int main() {
     my_project = (struct project *) malloc(sizeof(struct project));
     my_project->size = (size_t) NULL;
     my_project->members = NULL;
-    char *s;
     printf("Введите размер команды\n");
     int count_members = input_int();
-    printf("%d\n", count_members);
     my_project->size = (size_t) count_members;
     my_project->members = (struct people *)malloc(my_project->size * sizeof(struct people));
-    printf("%lu %lu\n", sizeof(struct people), sizeof(my_project->members[1]));
     for (size_t i = 0; i < my_project->size; ++i) {
-        my_project->members[i].name = NULL;
-        my_project->members[i].surname = NULL;
-        my_project->members[i].role = NULL;
-        my_project->members[i].age = 0;
-        my_project->members[i].degrees_influence = 0;
-        s = input_string();
-        my_project->members[i].name = s;
-        s = input_string();
-        my_project->members[i].surname = s;
-        s = input_string();
-        my_project->members[i].role = s;
-        int age = 0;
-        age = input_int();
-        my_project->members[i].age = age;
-        s = input_string();
-        my_project->members[i].degrees_influence = (double) *s - 48;
-        printf("%zu %s %s %s %d %lf\n", i,
+        my_project->members[i].name = input_string();
+        my_project->members[i].surname = input_string();
+        my_project->members[i].role = input_string();
+        my_project->members[i].age = input_int();
+        my_project->members[i].degrees_influence = input_double();
+        printf("%zu %s %s %s %d %f\n", i,
                my_project->members[i].name,
                my_project->members[i].surname,
                my_project->members[i].role,
                my_project->members[i].age,
                my_project->members[i].degrees_influence);
     }
-    free(s);
     return 0;
 }
