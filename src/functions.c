@@ -182,5 +182,22 @@ int input(struct project *my_project) {
     return 0;
 }
 
+void delete_struct(struct project * my_project) {
+    if (!my_project)
+        return;
+    if (my_project->size)
+        for (size_t i = 0; i < my_project->size; ++i) {
+            if (my_project->members[i].name)
+                free(my_project->members[i].name);
+            if (my_project->members[i].surname)
+                free(my_project->members[i].surname);
+            if (my_project->members[i].role)
+                free(my_project->members[i].role);
+        }
+    if (my_project->members)
+        free(my_project->members);
+    free(my_project);
+}
+
 
 

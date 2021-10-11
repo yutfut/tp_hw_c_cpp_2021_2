@@ -8,5 +8,6 @@ int main() {
     if(bool)
         return 1;
     entering_selection_parameters(my_project);
+    delete_struct(my_project);
     return 0;
 }
