@@ -15,7 +15,7 @@ char *input_string() {
         size_t size;
         size_t capacity;
     } buf = {NULL, 0, 0};
-    char c = '\0';
+    char c;
     while (c = input_char(), c != EOF && c != '\n') {
         if (buf.size + 1 >= buf.capacity) {
             size_t new_capacity = !buf.capacity ? 1 : buf.capacity * 2;
@@ -41,7 +41,7 @@ char *input_string() {
 }
 
 int input_int() {
-    char c = '\0';
+    char c;
     int result = 0;
     while (c = input_char(), c != EOF && c != '\n') {
         if (!(c >= '0' && c <= '9')) {
@@ -58,7 +58,7 @@ int input_int() {
 
 double input_double() {
     double result = 0;
-    char c = '\0';
+    char c;
     int dote = 1;
     int divider = 10;
     while (c = input_char(), c != EOF && c != '\n') {
