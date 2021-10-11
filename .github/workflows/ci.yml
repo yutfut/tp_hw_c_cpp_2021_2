@@ -39,7 +39,7 @@ jobs:
           sudo apt-get install lcov
           ./build/test.out
           mkdir coverage && cd coverage
-          gcov ../build/CMakeFiles/lib.dir/src/main.c.gcno
+          gcov ../build/CMakeFiles/lib.dir/src/main.c.o
           cp -r ../build/CMakeFiles/lib.dir/ .
           cd ..
           lcov --capture --directory coverage/ --output-file lib.info
