@@ -40,7 +40,7 @@ jobs:
           ./build/test.out
           mkdir coverage && cd coverage
           gcov ../build/CMakeFiles/lib.dir/src/funtions.c.o
-          cp -r ../build/CMakeFiles/equa.dir/ .
+          cp -r ../build/CMakeFiles/lib.dir/ .
           cd ..
           lcov --capture --directory coverage/ --output-file lib.info
           genhtml lib.info --output-directory coverage-report/
