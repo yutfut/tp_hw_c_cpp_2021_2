@@ -78,41 +78,49 @@ double input_double() {
     return result;
 }
 
-void print(struct people * const member) {
+int print(struct people * member) {
+    if (!member)
+        return 1;
     printf("%s %s %s %d %f\n",
            member->name,
            member->surname,
            member->role,
            member->age,
            member->degrees_influence);
+    return 0;
 }
 
-void select(const struct project * const my_project,
-               char* role, int first_age, int second_age,
-               double first_degrees_influence, double second_degrees_influence) {
+int selected(const struct project * my_project,
+              char* role, int first_age, int second_age,
+              double first_degrees_influence, double second_degrees_influence) {
     for (size_t i = 0; i < my_project->size; ++i) {
-        int bool = 1;
+        int bool = 0;
         if (strcmp (my_project->members[i].role, role) != 0) {
-            bool = 0;
+            bool = 1;
         }
         if (first_age > my_project->members[i].age  && my_project->members[i].age > second_age) {
-            bool = 0;
+            bool = 1;
         }
         if (first_degrees_influence > my_project->members[i].degrees_influence && my_project->members[i].degrees_influence > second_degrees_influence) {
-            bool = 0;
+            bool = 1;
         }
-        if (bool == 1) {
-            print(&my_project->members[i]);
+        if (bool == 0) {
+            bool = print(&my_project->members[i]);
+            if (bool == 1)
+                return 1;
         }
     }
+    return 0;
 }
 
-void entering_selection_parameters(const struct project * const my_project) {
+int entering_selection_parameters(const struct project * my_project) {
     char *role = NULL;
     int low_age = 0, high_age = 0;
     double low_degrees_influence = 0, high_degrees_influence = 0;
     printf("Введите роль\n");
     role = input_string();
+    if (!role)
+        return 1;
     printf("Введите нижнию возрастную границу\n");
     low_age = input_int();
     printf("Введите верхнию возрастную границу\n");
@@ -121,31 +129,56 @@ void entering_selection_parameters(const struct project * const my_project) {
     low_degrees_influence = input_double();
     printf("Введите верхнию границу степени влияния\n");
     high_degrees_influence = input_double();
-    select(my_project, role, low_age, high_age, low_degrees_influence, high_degrees_influence);
+    return selected(my_project, role, low_age, high_age, low_degrees_influence, high_degrees_influence);
 }
 
-void create(struct project **my_project_p) {
-    *my_project_p = (struct project *)malloc(sizeof(struct project));
-    struct project *my_project = *my_project_p;
+struct project *create() {
+    struct project *my_project = (struct project *)malloc(sizeof(struct project));
+    if (!my_project)
+        return NULL;
+
     my_project->size = 0;
     my_project->members = NULL;
+    return my_project;
+}
 
+int input(struct project *my_project) {
     printf("Введите размер команды\n");
     my_project->size = (size_t) input_int();
-
     my_project->members = (struct people *) malloc(my_project->size * sizeof(struct people));
+    if (my_project->members == NULL)
+        return 1;
 
     for (size_t i = 0; i < my_project->size; ++i) {
+        my_project->members[i].name = NULL;
+        my_project->members[i].surname = NULL;
+        my_project->members[i].role = NULL;
+        my_project->members[i].age = 0;
+        my_project->members[i].degrees_influence = 0;
+
         printf("Введите name\n");
         my_project->members[i].name = input_string();
+        if (!my_project->members[i].name)
+            return 1;
         printf("Введите surname\n");
         my_project->members[i].surname = input_string();
+        if (!my_project->members[i].surname)
+            return 1;
         printf("Введите role\n");
         my_project->members[i].role = input_string();
+        if (!my_project->members[i].role)
+            return 1;
         printf("Введите age\n");
         my_project->members[i].age = input_int();
+        if (my_project->members[i].age == 0)
+            return 1;
         printf("Введите degrees of influence\n");
         my_project->members[i].degrees_influence = input_double();
+        if (my_project->members[i].age == 0)
+            return 1;
     }
+    return 0;
 }
+
+
 
