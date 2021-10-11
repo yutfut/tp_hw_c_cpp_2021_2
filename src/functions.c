@@ -93,6 +93,8 @@ int print(struct people * member) {
 int selected(const struct project * my_project,
               char* role, int first_age, int second_age,
               double first_degrees_influence, double second_degrees_influence) {
+    if (!my_project || !my_project->members)
+        return 1;
     for (size_t i = 0; i < my_project->size; ++i) {
         int bool = 0;
         if (strcmp (my_project->members[i].role, role) != 0) {

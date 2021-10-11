@@ -46,13 +46,8 @@ TEST(FUNCTION_TEST, selected_test) {
 }
 
 TEST(FUNCTION_TEST, error_selected_test) {
-    char * role = NULL;
-    struct people member = {(char *) "name",
-                            (char *) "surname",
-                            (char *) role,
-                            34,
-                            5.5};
-    struct project new_project = {1, &member};
+    struct people *member = NULL;
+    struct project new_project = {1, member};
     EXPECT_EQ(selected(&new_project,
                        (char *) "role",
                        1,
