@@ -6,14 +6,20 @@ extern "C" {
 
 TEST(FUNCTION_TEST, allocate_test) {
     struct project new_project = {0, NULL};
-    EXPECT_EQ(sizeof(create()), sizeof(&new_project));
+    EXPECT_EQ(sizeof(create_project()), sizeof(&new_project));
 }
 
-TEST(FUNCTION_TEST, equal_test) {
+TEST(FUNCTION_TEST, allocate_equal_test) {
     struct project new_project = {0, NULL};
-    struct project *test_p = create();
+    struct project *test_p = create_project();
     EXPECT_EQ(test_p->size, new_project.size);
     EXPECT_EQ(test_p->members, new_project.members);
+}
+
+TEST(FUNCTION_TEST, allocate_test_for_member) {
+    struct project new_project = {0, NULL};
+    new_project.members = (struct people *)malloc(1 * sizeof(struct people));
+    EXPECT_EQ(sizeof(create_members(1)), sizeof(&new_project.members));
 }
 
 TEST(FUNCTION_TEST, print_test) {

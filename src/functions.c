@@ -134,70 +134,91 @@ int entering_selection_parameters(const struct project * my_project) {
     return selected(my_project, role, low_age, high_age, low_degrees_influence, high_degrees_influence);
 }
 
-struct project *create() {
+struct project *create_project() {
     struct project *my_project = (struct project *)malloc(sizeof(struct project));
     if (!my_project)
         return NULL;
 
     my_project->size = 0;
     my_project->members = NULL;
+
     return my_project;
 }
 
-int input(struct project *my_project) {
+struct people *create_members(size_t size) {
+    struct people *members = (struct people *) malloc(size * sizeof(struct people));
+
+    for (size_t i = 0; i < size; ++i) {
+        members[i].name = NULL;
+        members[i].surname = NULL;
+        members[i].role = NULL;
+        members[i].age = 0;
+        members[i].degrees_influence = 0;
+    }
+
+    return members;
+}
+
+int input_member(struct people *member) {
+    printf("Введите name\n");
+    member->name = input_string();
+    if (!member->name)
+        return 1;
+    printf("Введите surname\n");
+    member->surname = input_string();
+    if (!member->surname)
+        return 1;
+    printf("Введите role\n");
+    member->role = input_string();
+    if (!member->role)
+        return 1;
+    printf("Введите age\n");
+    member->age = input_int();
+    if (member->age == 0)
+        return 1;
+    printf("Введите degrees of influence\n");
+    member->degrees_influence = input_double();
+    if (member->age == 0)
+        return 1;
+    return 0;
+}
+
+int input_size(struct project *my_project) {
     printf("Введите размер команды\n");
     my_project->size = (size_t) input_int();
-    my_project->members = (struct people *) malloc(my_project->size * sizeof(struct people));
+    my_project->members = create_members(my_project->size);
     if (my_project->members == NULL)
         return 1;
+    return 0;
+}
 
+int input(struct project *my_project) {
     for (size_t i = 0; i < my_project->size; ++i) {
-        my_project->members[i].name = NULL;
-        my_project->members[i].surname = NULL;
-        my_project->members[i].role = NULL;
-        my_project->members[i].age = 0;
-        my_project->members[i].degrees_influence = 0;
-
-        printf("Введите name\n");
-        my_project->members[i].name = input_string();
-        if (!my_project->members[i].name)
+        int bool = input_member(&my_project->members[i]);
+        if (bool) {
             return 1;
-        printf("Введите surname\n");
-        my_project->members[i].surname = input_string();
-        if (!my_project->members[i].surname)
-            return 1;
-        printf("Введите role\n");
-        my_project->members[i].role = input_string();
-        if (!my_project->members[i].role)
-            return 1;
-        printf("Введите age\n");
-        my_project->members[i].age = input_int();
-        if (my_project->members[i].age == 0)
-            return 1;
-        printf("Введите degrees of influence\n");
-        my_project->members[i].degrees_influence = input_double();
-        if (my_project->members[i].age == 0)
-            return 1;
+        }
     }
     return 0;
 }
 
-void delete_struct(struct project * my_project) {
+void delete_members(struct people * members) {
+    if (members->name)
+        free(members->name);
+    if (members->surname)
+        free(members->surname);
+    if (members->role)
+        free(members->role);
+}
+
+void delete_project(struct project * my_project) {
     if (!my_project)
         return;
     if (my_project->size)
         for (size_t i = 0; i < my_project->size; ++i) {
-            if (my_project->members[i].name)
-                free(my_project->members[i].name);
-            if (my_project->members[i].surname)
-                free(my_project->members[i].surname);
-            if (my_project->members[i].role)
-                free(my_project->members[i].role);
+            delete_members(my_project->members);
         }
     if (my_project->members)
         free(my_project->members);
     free(my_project);
 }
-
-
-

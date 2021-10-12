@@ -34,11 +34,17 @@ int selected(const struct project * my_project,
 
 int entering_selection_parameters(const struct project * my_project);
 
-struct project * create();
+struct project * create_project();
+
+struct people *create_members(size_t size);
+
+int input_member(struct people *member);
+
+int input_size(struct project *my_project);
 
 int input(struct project *my_project);
 
-void delete_struct(struct project * my_project);
+void delete_project(struct project * my_project);
 
 #endif //TP_HW_C_CPP_2021_2_HEADER_H
 
