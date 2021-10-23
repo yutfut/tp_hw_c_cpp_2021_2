@@ -24,6 +24,9 @@ jobs:
         run : |
           sudo apt-get install -y cppcheck
           cppcheck --enable=warning,style,performance,portability src/ include/
+          sudo apt-get install python-pip
+          sudo pip install cpplint
+          cpplint --extensions=c,h,cpp include/* src/*
 
       - name : Building
         run : |
