@@ -72,3 +72,5 @@ cmake-build-debug/
 
 test/test.txt
 
+.venv
+venv/

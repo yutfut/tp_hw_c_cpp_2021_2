@@ -1,5 +1,5 @@
-#ifndef TP_HW_C_CPP_2021_2_HEADER_H
-#define TP_HW_C_CPP_2021_2_HEADER_H
+#ifndef TP_HW_C_CPP_2021_2_HEADER_H_
+#define TP_HW_C_CPP_2021_2_HEADER_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,5 +46,5 @@ int input(struct project *my_project);
 
 void delete_project(struct project * my_project);
 
-#endif //TP_HW_C_CPP_2021_2_HEADER_H
+#endif //TP_HW_C_CPP_2021_2_HEADER_H_
 

@@ -1,3 +1,5 @@
+//2021
+
 #include "../include/header.h"
 
 char input_char() {
@@ -100,10 +102,12 @@ int selected(const struct project * my_project,
         if (strcmp (my_project->members[i].role, role) != 0) {
             bool = 1;
         }
-        if (first_age > my_project->members[i].age  && my_project->members[i].age > second_age) {
+        if (first_age > my_project->members[i].age
+            && my_project->members[i].age > second_age) {
             bool = 1;
         }
-        if (first_degrees_influence > my_project->members[i].degrees_influence && my_project->members[i].degrees_influence > second_degrees_influence) {
+        if (first_degrees_influence > my_project->members[i].degrees_influence
+            && my_project->members[i].degrees_influence > second_degrees_influence) {
             bool = 1;
         }
         if (bool == 0) {
