@@ -23,8 +23,8 @@ jobs:
         run : |
           mkdir cmake-build-debug
           cd cmake-build-debug
-          python3 ../tests/generator/generator.py
           sudo apt-get install -y libgtest-dev
+          python3 ../tests/generator/generator.py
           cmake ..
           make
           cd ..
