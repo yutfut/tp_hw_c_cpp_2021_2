@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  CI:
+    name: Run CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name : Check style code
+        run : |
+          sudo apt-get install -y cppcheck
+          cppcheck --enable=warning,style,performance,portability source/ include/
+          sudo apt-get install python3-pip
+
+      - name : Building
+        run : |
+          mkdir cmake-build-debug
+          cd cmake-build-debug
+          sudo apt-get install -y libgtest-dev
+          python3 ../tests/generator/generator.py
+          cmake ..
+          make
+          cd ..
+
+      - name: Unit-tests one-thread
+        run: |
+          cd cmake-build-debug
+          ./test_one_thread.out
+          cd ..
+
+      - name: Unit-tests multi-thread
+        run: |
+          cd cmake-build-debug
+          ./test_multi_thread.out
+          cd ..
+
+      - name: Coverage one_thread test
+        run: |
+          sudo apt-get install lcov
+          mkdir coverage_one_thread && cd coverage_one_thread
+          gcov ../cmake-build-debug/CMakeFiles/lib_one_thread.dir/source/one_thread.c.gcno
+          cp -r ../cmake-build-debug/CMakeFiles/lib_one_thread.dir/ .
+          cd ..
+          lcov --capture --directory coverage_one_thread/ --output-file one_thread.info
+          genhtml one_thread.info --output-directory coverage_one_thread-report/
+
+      - name: Archive coverage one-thread-mode test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Coverage one_thread test
+          path: coverage_one_thread-report/
+
+      - name: Coverage multi_thread test
+        run: |
+          sudo apt-get install lcov
+          mkdir coverage_multi_thread && cd coverage_multi_thread
+          gcov ../cmake-build-debug/CMakeFiles/lib_multi_thread.dir/source/multi_thread.c.gcno
+          cp -r ../cmake-build-debug/CMakeFiles/lib_multi_thread.dir/ .
+          cd ..
+          lcov --capture --directory coverage_multi_thread/ --output-file multi_thread.info
+          genhtml multi_thread.info --output-directory coverage_multi_thread-report/
+
+      - name: Archive coverage one-thread-mode test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Coverage one_thread test
+          path: coverage_one_thread-report/
+
+      - name: Valgrind test
+        run: |
+          sudo apt-get install -y valgrind
+          cd cmake-build-debug
+          mkdir valgrid-output
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q  ./test_multi_thread.out
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q  ./test_one_thread.out
+          cd ..
+
+      - name: Archive valgrind test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Valgrind test
+          path: cmake-build-debug/valgrid-output/
