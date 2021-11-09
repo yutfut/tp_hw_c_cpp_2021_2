@@ -76,8 +76,8 @@ jobs:
       - name: Valgrind test
         run: |
           sudo apt-get install -y valgrind
-          mkdir valgrid-output
           cd cmake-build-debug
+          mkdir valgrid-output
           valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q  ./test_multi_thread.out
           valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q  ./test_one_thread.out
           cd ..
