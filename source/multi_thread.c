@@ -1,3 +1,5 @@
+// Copyright 2021 Golubev
+
 #include "../include/multi_thread.h"
 
 data_t data = {PTHREAD_MUTEX_INITIALIZER, 0};

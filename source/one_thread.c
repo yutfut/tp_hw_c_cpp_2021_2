@@ -1,3 +1,5 @@
+// Copyright 2021 Golubev
+
 #include "../include/one_thread.h"
 
 int counter(const char *file_name) {
