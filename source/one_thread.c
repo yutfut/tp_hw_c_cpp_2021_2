@@ -10,8 +10,7 @@ int counter(const char *file_name) {
 
     int val, sum = 0;
 
-    while(fscanf(fp, "%d\n", &val) != EOF)
-    {
+    while(fscanf(fp, "%d\n", &val) != EOF) {
         if((val < 0) || ((val < 157) && (val >= 100))) {
             sum++;
         }

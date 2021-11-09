@@ -9,8 +9,7 @@ void* check(void* args) {
     int val;
 
     pthread_mutex_t *mutex = &data.mutex;
-    while(fscanf(fp, "%d\n", &val) != EOF)
-    {
+    while(fscanf(fp, "%d\n", &val) != EOF) {
         if((val < 0) || ((val < 157) && (val >= 100))) {
             pthread_mutex_lock(mutex);
             data.value += 1;
