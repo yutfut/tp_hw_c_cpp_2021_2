@@ -1,7 +1,7 @@
 // Copyright 2021 Golubev
 
-#ifndef TP_HW_C_CPP_2021_2_INCLUDE_MULTI_THREAD_H_
-#define TP_HW_C_CPP_2021_2_INCLUDE_MULTI_THREAD_H_
+#ifndef INCLUDE_MULTI_THREAD_H_
+#define INCLUDE_MULTI_THREAD_H_
 
 #include <stdio.h>
 #include <unistd.h>
