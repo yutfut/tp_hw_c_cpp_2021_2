@@ -31,13 +31,13 @@ jobs:
 
       - name: Unit-tests multi-thread
         run: |
-          cd build
+          cd cmake-build-debug
           ./test_multi_thread.out
           cd ..
 
       - name: Unit-tests one-thread
         run: |
-          cd build
+          cd cmake-build-debug
           ./test_one_thread.out
           cd ..
 
