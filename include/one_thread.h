@@ -1,10 +1,9 @@
 // Copyright 2021 Golubev
 
-#ifndef TP_HW_C_CPP_2021_2_ONE_THREAD_H
-#define TP_HW_C_CPP_2021_2_ONE_THREAD_H
+#ifndef INCLUDE_ONE_THREAD_H_
 
 #include <stdio.h>
 
 int counter(const char *file_name);
 
-#endif //TP_HW_C_CPP_2021_2_ONE_THREAD_H
+#endif  // INCLUDE_ONE_THREAD_H_
