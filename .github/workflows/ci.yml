@@ -1,0 +1,78 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  CI:
+    name: Run CI
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name : Check style code
+        run : |
+          sudo apt-get install -y cppcheck
+          cppcheck --enable=warning,style,performance,portability source/ include/
+          sudo apt-get install python-pip
+          sudo pip install cpplint
+          cpplint --extensions=c,h,cpp include/* source/*
+
+      - name : Building
+        run : |
+          mkdir cmake-build-debug
+          cd cmake-build-debug
+          sudo apt-get install -y libgtest-dev
+          cmake ..
+          make
+          cd ..
+
+      - name: Coverage test multi_thread
+        run: |
+          sudo apt-get install lcov
+          ./cmake-build-debug/test_multi_tread.out
+          mkdir coverage && cd coverage
+          gcov ../cmake-build-debug/CMakeFiles/lib_multi_thread.dir/source/multi_thread.c.o
+          cp -r ../cmake-build-debug/CMakeFiles/lib_multi_thread.dir/ .
+          cd ..
+          lcov --capture --directory coverage/ --output-file multi_thread.info
+          genhtml lib.info --output-directory coverage-report/
+
+      - name: Coverage test one_thread
+        run: |
+          sudo apt-get install lcov
+          ./cmake-build-debug/test_one_thread.out
+          mkdir coverage && cd coverage
+          gcov ../cmake-build-debug/CMakeFiles/lib_multi_thread.dir/source/one_thread.c.o
+          cp -r ../cmake-build-debug/CMakeFiles/lib_one_thread.dir/ .
+          cd ..
+          lcov --capture --directory coverage/ --output-file one_thread.info
+          genhtml lib.info --output-directory coverage-report/
+
+      - name: Archive coverage test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Coverage test
+          path: coverage-report/
+
+      - name: Valgrind test
+        run: |
+          sudo apt-get install -y valgrind
+          mkdir valgrid-output
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/test_multi_thread.out
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/test_one_thread.out
+      - name: Archive valgrind test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Valgrind test
+          path: valgrid-output/
