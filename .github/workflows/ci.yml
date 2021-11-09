@@ -57,7 +57,9 @@ jobs:
       - name: Coverage test one_thread
         run: |
           sudo apt-get install lcov
-          ./cmake-build-debug/test_one_thread.out
+          cd cmake-build-debug
+          ./test_one_thread.out
+          cd ..
           mkdir coverage && cd coverage
           gcov ../cmake-build-debug/CMakeFiles/lib_multi_thread.dir/source/one_thread.c.gcno
           cp -r ../cmake-build-debug/CMakeFiles/lib_one_thread.dir/ .
@@ -75,8 +77,10 @@ jobs:
         run: |
           sudo apt-get install -y valgrind
           mkdir valgrid-output
-          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./cmake-build-debug/test_multi_thread.out
-          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./cmake-build-debug/test_one_thread.out
+          cd cmake-build-debug
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./test_multi_thread.out
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./test_one_thread.out
+          cd ..
 
       - name: Archive valgrind test results
         uses: actions/upload-artifact@v2
