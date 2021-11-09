@@ -43,6 +43,7 @@ jobs:
 
       - name: Coverage test multi_thread
         run: |
+          python3 tests/generator/generator.py
           sudo apt-get install lcov
           ./cmake-build-debug/test_multi_thread.out
           mkdir coverage && cd coverage
