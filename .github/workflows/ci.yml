@@ -77,8 +77,10 @@ jobs:
         run: |
           sudo apt-get install -y valgrind
           mkdir valgrid-output
-          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q  cd cmake-build-debug && ./test_multi_thread.out && cd ..
-          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q  cd cmake-build-debug && ./test_one_thread.out && cd ..
+          cd cmake-build-debug
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q  ./test_multi_thread.out
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q  ./test_one_thread.out
+          cd ..
 
       - name: Archive valgrind test results
         uses: actions/upload-artifact@v2
