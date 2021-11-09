@@ -61,7 +61,7 @@ jobs:
           ./test_one_thread.out
           cd ..
           mkdir coverage && cd coverage
-          gcov ../cmake-build-debug/CMakeFiles/lib_multi_thread.dir/source/one_thread.c.gcno
+          gcov ../cmake-build-debug/CMakeFiles/lib_one_thread.dir/source/one_thread.c.gcno
           cp -r ../cmake-build-debug/CMakeFiles/lib_one_thread.dir/ .
           cd ..
           lcov --capture --directory coverage/ --output-file one_thread.info
