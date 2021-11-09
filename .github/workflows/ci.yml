@@ -32,7 +32,7 @@ jobs:
       - name: Coverage test multi_thread
         run: |
           sudo apt-get install lcov
-          ./cmake-build-debug/test_multi_tread.out
+          ./cmake-build-debug/test_multi_thread.out
           mkdir coverage && cd coverage
           gcov ../cmake-build-debug/CMakeFiles/lib_multi_thread.dir/source/multi_thread.c.o
           cp -r ../cmake-build-debug/CMakeFiles/lib_multi_thread.dir/ .
