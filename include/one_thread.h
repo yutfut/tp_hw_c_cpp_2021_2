@@ -7,4 +7,4 @@
 
 int counter(const char *file_name);
 
-#endif  // TP_HW_C_CPP_2021_2_INCLUDE_ONE_THREAD_H_
+#endif  // INCLUDE_ONE_THREAD_H_
