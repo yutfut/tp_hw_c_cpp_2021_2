@@ -86,4 +86,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Valgrind test
-          path: valgrid-output/
+          path: cmake-build-debug/valgrid-output/
